@@ -1,11 +1,21 @@
 const router = require("express").Router();
-const db = require("../models");
+const Workout = require("../models");
+
+// create workout ID
+router.post("/api/workouts", function (req, res) {
+  Workout.create(req.body)
+    .then(function (dbWorkout) {
+      res.json(dbWorkout);
+    })
+    .catch(err => {
+      res.json(err);
+    });
+});
 
 // GET route for getting workouts
 router.get("/api/workouts", function (req, res) {
 
-  db.Workout.find()
-
+  Workout.find()
     .then(function (dbWorkout) {
       res.json(dbWorkout);
     });
@@ -13,7 +23,7 @@ router.get("/api/workouts", function (req, res) {
 
 // Get route for retrieving a current workout
 router.put("/api/workouts/:id", function (req, res) {
-  db.Workout.findOne({
+  Workout.findOne({
     where: {
       id: req.params.id
     }
@@ -23,16 +33,11 @@ router.put("/api/workouts/:id", function (req, res) {
   });
 });
 
-// POST route for saving a new post
-router.post("/api/workouts", function (req, res) {
-  db.Workout.create(req.body).then(function (dbWorkout) {
-    res.json(dbWorkout);
-  });
-});
+
 
 // DELETE route for deleting posts
 router.delete("/api/workouts/:id", function (req, res) {
-  db.Workout.destroy({
+  Workout.destroy({
     where: {
       id: req.params.id
     }
@@ -43,7 +48,7 @@ router.delete("/api/workouts/:id", function (req, res) {
 
 // PUT route for updating posts
 router.put("/api/workouts", function (req, res) {
-  db.Workout.update(
+  Workout.update(
     req.body,
     {
       where: {
@@ -58,13 +63,14 @@ router.put("/api/workouts", function (req, res) {
 
 router.get("/api/workouts/range", (req, res) => {
 
-  db.Workout.find({}).then(dbWorkout => {
-      console.log("ALL WORKOUTS");
-      console.log(dbWorkout);
+  Workout.find({}).limit(7)
+  .then(dbWorkout => {
+    console.log("ALL WORKOUTS");
+    console.log(dbWorkout);
 
-      res.json(dbWorkout);
+    res.json(dbWorkout);
   }).catch(err => {
-      res.json(err);
+    res.json(err);
   });
 
 });
