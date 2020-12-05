@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const Workout = require("../models").Workout;
+const Workout = require("../models/workout.js");
 //const db = require('../models')
 //db.Workout
 //const Workout = require('../models/Workout')
@@ -9,8 +9,8 @@ const Workout = require("../models").Workout;
 router.post("/api/workouts", function (req, res) {
   // Workout.create(req.body)
   Workout.create({})
-    .then(function (dbWorkout) {
-      res.json(dbWorkout);
+    .then(function (dbWorkouts) {
+      res.json(dbWorkouts);
     })
     .catch(err => {
       res.json(err);
@@ -22,8 +22,11 @@ router.post("/api/workouts", function (req, res) {
 router.get("/api/workouts", function (req, res) {
 
   Workout.find()
-    .then(function (dbWorkout) {
-      res.json(dbWorkout);
+    .then(function (dbWorkouts) {
+      res.json(dbWorkouts);
+    })
+    .catch(err => {
+      res.json(err);
     });
 });
 
@@ -36,9 +39,9 @@ router.put("/api/workouts/:id", function ({ body, params }, res) {
     // "runValidators" will ensure new exercises meet our schema requirements
     { new: true, runValidators: true }
   )
-    .then(function (dbWorkout) {
-      console.log(dbWorkout);
-      res.json(dbWorkout);
+    .then(function (dbWorkouts) {
+      console.log(dbWorkouts);
+      res.json(dbWorkouts);
     })
     .catch(err => {
       res.json(err);
@@ -52,8 +55,8 @@ router.delete("/api/workouts/:id", function (req, res) {
     where: {
       id: req.params.id
     }
-  }).then(function (dbWorkout) {
-    res.json(dbWorkout);
+  }).then(function (dbWorkouts) {
+    res.json(dbWorkouts);
   });
 });
 
@@ -61,11 +64,11 @@ router.delete("/api/workouts/:id", function (req, res) {
 router.get("/api/workouts/range", (req, res) => {
 
   Workout.find({}).limit(7)
-    .then(dbWorkout => {
+    .then(dbWorkouts => {
       console.log("ALL WORKOUTS");
-      console.log(dbWorkout);
+      console.log(dbWorkouts);
 
-      res.json(dbWorkout);
+      res.json(dbWorkouts);
     }).catch(err => {
       res.json(err);
     });
