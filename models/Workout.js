@@ -56,7 +56,7 @@ const WorkoutSchema = new Schema(
 
     {
         toJSON: {
-            virtual: true
+            virtuals: true
         },
     }
 );
